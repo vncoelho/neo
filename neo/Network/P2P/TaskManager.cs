@@ -220,7 +220,7 @@ namespace Neo.Network.P2P
             if (!HeaderTask && Blockchain.Singleton.HeaderHeight < session.Version.StartHeight)
             {
                 session.Tasks[UInt256.Zero] = DateTime.UtcNow;
-                session.RemoteNode.Tell(Message.Create("getheaders", GetBlocksPayload.Create(Blockchain.Singleton.CurrentHeaderHash)));
+                session.RemoteNode.Tell(Message.Create("getheaders", GetBlocksPayload.Create(Blockchain.Singleton.CurrentHeaderHash, HeadersPayload.MaxHeadersCount)));
             }
             else if (Blockchain.Singleton.Height < session.Version.StartHeight)
             {
@@ -234,7 +234,7 @@ namespace Neo.Network.P2P
                         break;
                     }
                 }
-                session.RemoteNode.Tell(Message.Create("getblocks", GetBlocksPayload.Create(hash)));
+                session.RemoteNode.Tell(Message.Create("getblocks", GetBlocksPayload.Create(hash, InvPayload.MaxHashesCount)));
             }
         }
     }
